@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículo Online - Andréa Ferreira</title>
+    
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* --- Configurações Gerais (Padrão MODO ESCURO) --- */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: rgb(15, 15, 15);
+            color: white;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* --- Header configurações --- */
+        .header-banner {
+            background-color: rgb(15, 15, 15);
+            color: rgb(182, 143, 5);
+            font-style: italic;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        .header-banner h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        /* --- Container dos Controles do Site --- */
+        .site-controls-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 20px; /* Espaço entre os seletores */
+            align-items: center;
+        }
+
+        /* --- Estilo do Seletor de Idioma --- */
+        .lang-switch-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .lang-switch a {
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            color: white;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 3px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .lang-switch .lang-ativo {
+            color: #87CEEB; 
+            cursor: default;
+        }
+        .lang-switch a:not(.lang-ativo):hover {
+            background-color: #555;
+        }
+        
+        /* Estilo da Bandeira */
+        .lang-flag {
+            width: 20px;
+            height: auto;
+            border-radius: 2px;
+            border: 1px solid #444; 
+        }
+
+        /* --- Interruptor de Tema --- */
+        .theme-switch-container {
+            /* position: absolute */
+            display: flex;
+            align-items: center;
+        }
+        .theme-switch-label {
+            color: white;
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .theme-switch input { display: none; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #555;
+            transition: 0.4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #87CEEB;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* --- Main --- */
+        main {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 0 10px;
+        }
+
+        /* --- Título da Página --- */
+        .caixa-nome {
+            text-align: center;
+            padding: 15px;
+            color: white;
+            font-size: 2.2em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+        
+        /* --- Navegação Principal Menu --- */
+        .menu-navegacao {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        .menu-navegacao ul {
+            display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; margin: 0; justify-content: center;
+        }
+        .menu-navegacao li {
+            flex: 1 1 auto; min-width: 120px;
+        }
+        .menu-navegacao a {
+            display: block; padding: 15px 10px; text-align: center; text-decoration: none; font-weight: bold; font-size: 1em;
+            border-radius: 5px; transition: background-color 0.3s, color 0.3s, border-color 0.3s; border: 2px solid;
+            color: #333; background-color: #A2D9CE; border-color: #7DB9AE;
+        }
+        .menu-navegacao a:hover {
+            background-color: #87CEEB; color: white; border-color: #5F9EA0; cursor: pointer;
+        }
+        .menu-navegacao a.ativo {
+            background-color: #D4EDDA; color: #155724; border-color: #C3E6CB;
+        }
+
+        /* --- Menu de Âncoras Interno --- */
+        .hobbies-nav {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        .hobbies-nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            justify-content: center;
+        }
+        .hobbies-nav a {
+            display: block;
+            padding: 8px 15px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9em;
+            border-radius: 5px;
+            color: #A2D9CE; 
+            border: 1px solid #7DB9AE;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        .hobbies-nav a:hover {
+            background-color: #A2D9CE;
+            color: #333;
+        }
+
+        /* --- Container Hobbies --- */
+        .hobby-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+        .hobby-item {
+            display: flex;
+            align-items: flex-start; 
+            background-color: #222;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #87CEEB;
+            width: 80%;
+            max-width: 750px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .hobby-icon {
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        .hobby-icon img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        .hobby-texto {
+            flex: 1;
+        }
+        .hobby-texto h3 {
+            margin: 0 0 10px 0;
+            color: #A2D9CE;
+            font-size: 1.5em;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .hobby-texto p {
+            margin: 0 0 15px 0;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        
+        /* --- Bloco Animes --- */
+        .anime-bloco {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #444;
+            transition: border-color 0.3s;
+        }
+        .anime-bloco:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .anime-bloco h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.2em;
+            color: white;
+            font-style: italic;
+            transition: color 0.3s;
+        }
+
+        /* --- Container Vídeo --- */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            border-radius: 8px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* --- Estilo para Vídeo Local --- */
+        .local-video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            background: #000;
+        }
+
+        /* --- Galeria Sebastian --- */
+        .gallery-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-start;
+            margin-top: 15px;
+        }
+        .gallery-item img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #A2D9CE;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .gallery-item img:hover {
+            transform: scale(1.05);
+            border-color: #87CEEB;
+        }
+
+        /* --- Subtítulo para Vídeos --- */
+        .hobby-subtitulo {
+            margin-top: 25px;
+            padding-top: 20px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            color: white;
+            font-style: italic;
+            border-top: 1px dashed #444;
+            transition: color 0.3s, border-color 0.3s;
+        }
+        
+        /* --- Espaçamento para Vídeos --- */
+        .sebastian-video-item {
+            margin-bottom: 20px;
+        }
+        .sebastian-video-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* --- Galeria Livros --- */
+        .livros-galeria {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        .livros-galeria img {
+            height: 200px;
+            width: auto;
+            border-radius: 4px;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.6);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .livros-galeria img:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+
+        /* --- Botão Hobby --- */
+        .hobby-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 18px;
+            background-color: #A2D9CE;
+            color: #333;
+            border: 1px solid #7DB9AE;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .hobby-button:hover {
+            background-color: #87CEEB;
+            color: white;
+            border-color: #5F9EA0;
+        }
+
+        /* --- Ajustes Telas Pequenas --- */
+        @media (max-width: 768px) {
+            .hobby-item {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 95%;
+            }
+            .hobby-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            .menu-navegacao ul, .hobbies-nav ul {
+                flex-direction: column;
+            }
+            .menu-navegacao li, .hobbies-nav li {
+                min-width: unset;
+                width: 100%;
+            }
+            .gallery-item img {
+                width: 110px;
+                height: 110px;
+            }
+            .livros-galeria img {
+                height: 150px; 
+            }
+            
+            /* Controles do Site no Mobile */
+            .site-controls-container {
+                position: static;
+                flex-direction: column;
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+            .theme-switch-container {
+                margin-bottom: 0; /* Resetado */
+            }
+            .theme-switch-label { color: rgb(182, 143, 5); }
+        }
+
+        /* ---
+        ========================================
+        REGRAS DO MODO CLARO (LIGHT MODE)
+        ========================================
+        --- */
+
+        body.light-mode {
+            background-color: white;
+            color: #333;
+        }
+        body.light-mode .caixa-nome {
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        body.light-mode .hobbies-nav a {
+            color: #0056b3;
+            border-color: #0056b3;
+        }
+        body.light-mode .hobbies-nav a:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+        body.light-mode .hobby-item {
+            background-color: #f4f4f4;
+            border-color: #ddd;
+            color: #333;
+        }
+        body.light-mode .hobby-texto h3 {
+            color: #0056b3;
+            border-bottom-color: #ccc;
+        }
+        body.light-mode .anime-bloco h4 {
+            color: #333;
+        }
+        body.light-mode .anime-bloco {
+            border-bottom-color: #ccc;
+        }
+        body.light-mode .gallery-item img {
+            border-color: #7DB9AE;
+        }
+        body.light-mode .livros-galeria img {
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+        }
+        body.light-mode .hobby-subtitulo {
+            color: #333;
+            border-top-color: #ccc;
+        }
+        body.light-mode .local-video {
+            background: #f4f4f4;
+        }
+        
+        /* Light Mode Controles do Site */
+        body.light-mode .lang-switch a {
+            color: #333; 
+        }
+        body.light-mode .lang-switch .lang-ativo {
+            color: #0056b3; 
+        }
+        body.light-mode .lang-switch a:not(.lang-ativo):hover {
+            background-color: #eee;
+        }
+        body.light-mode .lang-flag {
+            border-color: #ddd; 
+        }
+        body.light-mode .theme-switch-label {
+             color: rgb(182, 143, 5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header-banner">
+        <h1>Portfólio Online Pessoal</h1>
+
+        <div class="site-controls-container">
+
+            <div class="lang-switch-container">
+                <span class="lang-switch">
+                    <a href="hobbies.html" class="lang-ativo">
+                        <img src="images/Flag_of_Brazil.png" alt="Bandeira do Brasil" class="lang-flag"> PT
+                    </a>
+                </span>
+                <span class="lang-switch">
+                    <a href="hobbies_en.html">
+                        <img src="images/Flag_of_the_United_Kingdom.png" alt="Bandeira do Reino Unido" class="lang-flag"> EN
+                    </a>
+                </span>
+            </div>
+
+            <div class="theme-switch-container">
+                <span class="theme-switch-label">Light Mode</span>
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+        
+        <nav class="menu-navegacao">
+            <ul>
+                <li><a href="sobremim.html">Home</a></li> 
+                <li><a href="formacao.html">Formação</a></li>
+                <li><a href="portfolio.html">Portfólio</a></li>
+                <li><a href="hobbies.html" class="ativo">Hobbies</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+        </nav>
+
+        <section class="caixa-nome">
+            Hobbies
+        </section>
+
+        <nav class="hobbies-nav">
+            <ul>
+                <li><a href="#animes">Animes</a></li>
+                <li><a href="#youtube">Canal YouTube</a></li>
+                <li><a href="#sebastian">Sebastian</a></li>
+                <li><a href="#livros">Livros</a></li>
+            </ul>
+        </nav>
+
+        <div class="hobby-lista">
+            
+            <section id="animes" class="hobby-item">
+                <div class="hobby-texto" style="width: 100%;">
+                    <h3>Animes Favoritos - a lista é grande, mas separei só alguns</h3>
+                    <div class="anime-bloco">
+                        <h4>Black Butler</h4>
+                        <p>Sinopse: Para mim, o melhor anime do mundo! Com uma narrativa complexa, personagens adoráveis e cheio de plot twists, Black Butler é uma mistura na dose certa de comédia, mistério e vingança. Meu personagem favorito ... ele ... o mordomo perfeito: Sebastian Michaelis. Compartilho com vocês o vídeo do meu ending favorito da série</p>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/9JIZnEOubUU?si=DNfIviZ5O77vIo4u" title="waltz" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="anime-bloco">
+                        <h4>Heaven Official's Blessing </h4>
+                        <p>Sinopse: Esse anime é de deixar qualquer um apaixonado ... quem não cai de amores por Huacheng, o Red Devastation? Eu caí rsrsrs. O anime prende a pessoa na tela, tem imagens lindas, uma trilha sonora maravilhosa e Huacheng ... ah, Huacheng rsrsrsr. Com você, partilho a famosa cena dos noivos.</p>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/yCqmbdOW3uM?si=18s3lxV9geMe50iu" title="heaven official's blessing" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="anime-bloco">
+                        <h4>Master of Diabolism</h4>
+                        <p>Sinopse: Master of Diabolism é uma obra prima, cheia de reviravoltas. O anime é de uma construção belíssima e a estória prende 1000%! Meu personagem favorito: Wei Wuxian, o protagonista. O anime é uma maravilhosa mistura de comédia (tem muita mesmo), ação, mistério, intriga e um final lindo. Com você, compartilho o opening da 1a temporada que é qualquer coisa de lindo!</p>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/X0I0nf2eoK8?si=u5ALirDHh4KNeN8e" title="master of diabolism" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="anime-bloco">
+                        <h4>Dragon Raja</h4>
+                        <p>Sinopse: Dragon Raja - The Blazing Dawn é um daqueles animes que te pega de surpresa. Com gráfico visual lindo, personagens e trama bem estruturada, o anime me ganhou de vez quando a 2a temporada (The Mourner's Eyes) saiu com esse espetáculo de abertura!</p>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/eg5fHKcO0bE?si=cN5kNpm2Aoe83YGs" title="dragon raja" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="youtube" class="hobby-item">
+                <div class="hobby-icon">
+                    <img src="images/yt1.png" alt="Ícone do YouTube" onerror="this.src='https://placehold.co/50x50/333/87CEEB?text=YT'">
+                </div>
+                <div class="hobby-texto">
+                    <h3>Meu Canal do YouTube</h3>
+                    <p>Eu tenho um canal no YouTube chamado From Beyond onde meu um encantador host, o adorável Sebastian Ravencourt conta histórias de mistério, paranormal e inexplicável. Com um charme todo único, e um sotaque british, Sebastian convida seus "guests" a o acompanharem pelo mundo obscuro que jaz em outros planos. Dê uma olhada e inscreva-se!</p>
+                    <a href="https://www.youtube.com/@FromBeyond-r1v" target="_blank" class="hobby-button">
+                        Visitar Canal
+                    </a>
+                </div>
+            </section>
+
+            <section id="sebastian" class="hobby-item">
+                <div class="hobby-icon">
+                    <img src="images/yt1.png" alt="Ícone do YouTube" onerror="this.src='https://placehold.co/50x50/333/87CEEB?text=S.'">
+                </div>
+                <div class="hobby-texto">
+                    <h3>Sebastian (Host de From Beyond)</h3>
+                    <p>Cheio de charme e com o toque aristocrático perfeito, ele está sempre às noites aguardando por seus convidados em Elderglen Manor, sua belíssima mansão vitoriana</p>
+                    
+                    <div class="gallery-container">
+                        <div class="gallery-item"><img src="images/Sebastian1.png" alt="Sebastian Foto 1" onerror="this.src='https://placehold.co/150x150/333/A2D9CE?text=Seb+1'"></div>
+                        <div class="gallery-item"><img src="images/Sebastian2.png" alt="Sebastian Foto 2" onerror="this.src='https://placehold.co/150x150/333/A2D9CE?text=Seb+2'"></div>
+                        <div class="gallery-item"><img src="images/Sebastian3.png" alt="Sebastian Foto 3" onerror="this.src='https://placehold.co/150x150/333/A2D9CE?text=Seb+3'"></div>
+                        <div class="gallery-item"><img src="images/Sebastian4.png" alt="Sebastian Foto 4" onerror="this.src='https://placehold.co/150x150/333/A2D9CE?text=Seb+4'"></div>
+                        <div class="gallery-item"><img src="images/Sebastian5.png" alt="Sebastian Foto 5" onerror="this.src='https://placehold.co/150x150/333/A2D9CE?text=Seb+5'"></div>
+                    </div>
+
+                    <h4 class="hobby-subtitulo">Vídeos do Sebastian</h4>
+                    
+                    <div class="sebastian-video-item">
+                        <video class="local-video" controls>
+                            <source src="videos/Halloween1.mp4" type="video/mp4">
+                            Seu navegador não suporta a tag de vídeo.
+                        </video>
+                    </div>
+                    
+                    <div class="sebastian-video-item">
+                        <video class="local-video" controls>
+                            <source src="videos/Halloween2.mp4" type="video/mp4">
+                            Seu navegador não suporta a tag de vídeo.
+                        </video>
+                    </div>
+
+                    <div class="sebastian-video-item">
+                         <video class="local-video" controls>
+                            <source src="videos/invitation1.mp4" type="video/mp4">
+                            Seu navegador não suporta a tag de vídeo.
+                        </video>
+                    </div>
+                    
+                </div>
+            </section>
+
+            <section id="livros" class="hobby-item">
+                <div class="hobby-icon">
+                    <img src="images/amazon.png" alt="Ícone da Amazon" onerror="this.src='https://placehold.co/50x50/333/87CEEB?text=AZ'">
+                </div>
+                <div class="hobby-texto">
+                    <h3>Meus Livros na Amazon</h3>
+                    <p>A escrita é a minha maior paixão! E uma estória bem contada é o que mais adoro! Depois de quase 40 anos (a ideia desse livro surgiu quando eu tinha 14 anos), finalmente, publiquei, na Amazon, o livro "As Crônicas do Amanhã", nas versões em português e inglês. Você pode encontrá-los na minha página de autora.</p>
+                    <div class="livros-galeria">
+                        <img src="images/livro_pt.jpg" alt="Capa do Livro Português" onerror="this.src='https://placehold.co/130x200/333/A2D9CE?text=Capa+PT'">
+                        <img src="images/livro_eng.png" alt="Capa do Livro Inglês" onerror="this.src='https://placehold.co/130x200/333/A2D9CE?text=Capa+EN'">
+                    </div>
+                    <a href="https://www.amazon.com/author/andrealaufer" target="_blank" class="hobby-button">
+                        Ver Livros na Amazon
+                    </a>
+                </div>
+            </section>
+
+        </div> 
+    </main> 
+
+    <script>
+        const toggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        function aplicarTema(tema) {
+            if (tema === 'light') {
+                body.classList.add('light-mode');
+                toggle.checked = true;
+            } else {
+                body.classList.remove('light-mode');
+                toggle.checked = false;
+            }
+        }
+        const temaSalvo = localStorage.getItem('theme');
+        if (temaSalvo === 'light') {
+            aplicarTema('light');
+        } else {
+            aplicarTema('dark');
+        }
+        toggle.addEventListener('click', () => {
+            if (toggle.checked) {
+                localStorage.setItem('theme', 'light');
+                aplicarTema('light');
+            } else {
+                localStorage.setItem('theme', 'dark');
+                aplicarTema('dark');
+            }
+        });
+    </script>
+
+</body>
+</html>

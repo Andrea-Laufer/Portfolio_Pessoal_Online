@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online CV - Andréa Ferreira</title>
+    
+    <style>
+        /* --- Configurações Gerais (Padrão é MODO ESCURO) --- */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: rgb(15, 15, 15);
+            color: white;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* --- Header configurações --- */
+        .header-banner {
+            background-color: rgb(15, 15, 15);
+            color: rgb(182, 143, 5);
+            font-style: italic;
+            padding: 20px;
+            text-align: center;
+            position: relative; 
+        }
+
+        .header-banner h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        /* --- Container dos Controles do Site --- */
+        .site-controls-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 20px; /* Espaço entre os seletores */
+            align-items: center;
+        }
+
+        /* --- Estilo do Seletor de Idioma --- */
+        .lang-switch-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .lang-switch a {
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            color: white;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 3px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .lang-switch .lang-ativo {
+            color: #87CEEB; 
+            cursor: default;
+        }
+        .lang-switch a:not(.lang-ativo):hover {
+            background-color: #555;
+        }
+        
+        /* Estilo da Bandeira */
+        .lang-flag {
+            width: 20px;
+            height: auto;
+            border-radius: 2px;
+            border: 1px solid #444; 
+        }
+
+        /* --- Estilo do Interruptor de Tema --- */
+        .theme-switch-container {
+            /* position: absolute */
+            /* top: 20px; */
+            /* right: 20px; */
+            display: flex;
+            align-items: center;
+        }
+        .theme-switch-label {
+            color: white;
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .theme-switch input { display: none; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #555;
+            transition: 0.4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #87CEEB;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* --- Wrapper Main --- */
+        main {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 0 10px;
+        }
+
+        /* --- Título da Página --- */
+        .caixa-nome {
+            text-align: center;
+            padding: 15px;
+            color: white;
+            font-size: 2.2em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+        
+        /* --- Lista de Formação --- */
+        .formacao-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .formacao-item {
+            display: flex;
+            align-items: center;
+            background-color: #222;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #87CEEB;
+            width: 80%;
+            max-width: 750px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .formacao-icon {
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        .formacao-icon img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        .formacao-texto {
+            flex: 1;
+        }
+        .formacao-texto h3 {
+            margin: 0 0 5px 0;
+            color: #A2D9CE;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+        .formacao-texto p {
+            margin: 0;
+            line-height: 1.5;
+            font-size: 1.1em;
+        }
+        .formacao-periodo {
+            font-size: 0.9em;
+            font-style: italic;
+            color: #ccc;
+            margin-top: 5px !important;
+            transition: color 0.3s;
+        }
+        
+        /* --- Botões de Navegação --- */
+        .menu-navegacao {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        .menu-navegacao ul {
+            display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; margin: 0; justify-content: center;
+        }
+        .menu-navegacao li {
+            flex: 1 1 auto; min-width: 120px;
+        }
+        .menu-navegacao a {
+            display: block; padding: 15px 10px; text-align: center; text-decoration: none; font-weight: bold; font-size: 1em;
+            border-radius: 5px; transition: background-color 0.3s, color 0.3s, border-color 0.3s; border: 2px solid;
+            color: #333; background-color: #A2D9CE; border-color: #7DB9AE;
+        }
+        .menu-navegacao a:hover {
+            background-color: #87CEEB; color: white; border-color: #5F9EA0; cursor: pointer;
+        }
+        .menu-navegacao a.ativo {
+            background-color: #D4EDDA; color: #155724; border-color: #C3E6CB;
+        }
+
+        /* --- Ajuste para Telas Pequenas --- */
+        @media (max-width: 768px) {
+            .formacao-item {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 95%;
+            }
+            .formacao-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            .menu-navegacao ul {
+                flex-direction: column;
+            }
+            .menu-navegacao li {
+                min-width: unset;
+            }
+            
+            /* Controles do Site no Mobile */
+            .site-controls-container {
+                position: static;
+                flex-direction: column;
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+            .theme-switch-container {
+                margin-bottom: 0; /* Resetado */
+            }
+            .theme-switch-label { color: rgb(182, 143, 5); }
+        }
+
+        /* ---
+        ========================================
+        REGRAS DO MODO CLARO (LIGHT MODE)
+        ========================================
+        --- */
+
+        body.light-mode {
+            background-color: white;
+            color: #333;
+        }
+        body.light-mode .caixa-nome {
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        body.light-mode .formacao-item {
+            background-color: #f4f4f4;
+            border-color: #ddd;
+            color: #333;
+        }
+        body.light-mode .formacao-texto h3 {
+            color: #0056b3;
+        }
+        body.light-mode .formacao-periodo {
+            color: #555;
+        }
+        
+        /* Light Mode Controles do Site */
+        body.light-mode .lang-switch a {
+            color: #333; 
+        }
+        body.light-mode .lang-switch .lang-ativo {
+            color: #0056b3; 
+        }
+        body.light-mode .lang-switch a:not(.lang-ativo):hover {
+            background-color: #eee;
+        }
+        body.light-mode .lang-flag {
+            border-color: #ddd; 
+        }
+        body.light-mode .theme-switch-label {
+             color: rgb(182, 143, 5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header-banner">
+        <h1>Personal Online Portfolio</h1>
+
+        <div class="site-controls-container">
+
+            <div class="lang-switch-container">
+                <span class="lang-switch">
+                    <a href="formacao.html" class="lang-ativo">
+                        <img src="images/Flag_of_Brazil.png" alt="Bandeira do Brasil" class="lang-flag"> PT
+                    </a>
+                </span>
+                <span class="lang-switch">
+                    <a href="formacao_en.html">
+                        <img src="images/Flag_of_the_United_Kingdom.png" alt="Bandeira do Reino Unido" class="lang-flag"> EN
+                    </a>
+                </span>
+            </div>
+
+            <div class="theme-switch-container">
+                <span class="theme-switch-label">Light Mode</span>
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+        
+        <nav class="menu-navegacao">
+            <ul>
+                <li><a href="sobremim.html">Home</a></li> 
+                <li><a href="formacao.html" class="ativo">Educational Background</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="hobbies.html">Hobbies</a></li>
+                <li><a href="contato.html">Contact</a></li>
+            </ul>
+        </nav>
+
+        <section class="caixa-nome">
+            Educational Background
+        </section>
+
+        <div class="formacao-lista">
+            
+            <div class="formacao-item">
+                <div class="formacao-icon">
+                    <img src="images/balanca.jpg" alt="Ícone de Direito">
+                </div>
+                <div class="formacao-texto">
+                    <h3>Bachelor's Degree in Law</h3>
+                    <p>Federal University of the State of Rio de Janeiro - UNIRIO</p>
+                    <p class="formacao-periodo">1992 a 1997</p>
+                </div>
+            </div>
+            
+            <div class="formacao-item">
+                <div class="formacao-icon">
+                    <img src="images/adm.jpg" alt="Ícone de Administração">
+                </div>
+                <div class="formacao-texto">
+                    <h3>Master's Degree in Public Administration</h3>
+                    <p>Getulio Vargas Foundation, Rio de Janeiro</p>
+                    <p class="formacao-periodo">1998 a 2000</p>
+                </div>
+            </div>
+
+            <div class="formacao-item">
+                <div class="formacao-icon">
+                    <img src="images/data.jpg" alt="Ícone de Ciência de Dados">
+                </div>
+                <div class="formacao-texto">
+                    <h3>Undergraduate Course in Data Science</h3>
+                    <p>UNINTER</p>
+                    <p class="formacao-periodo">2025 - ongoing</p>
+                </div>
+            </div>
+
+            <div class="formacao-item">
+                <div class="formacao-icon">
+                    <img src="images/idioma.jpg" alt="Ícone de Idiomas">
+                </div>
+                <div class="formacao-texto">
+                    <h3>Language skills</h3>
+                    <p>Fluent in English and basic in French.</p>
+                </div>
+            </div>
+
+            <div class="formacao-item">
+                <div class="formacao-icon">
+                    <img src="images/cursos.jpg" alt="Ícone de Cursos Extras">
+                </div>
+                <div class="formacao-texto">
+                    <h3>Extra Courses</h3>
+                    <p>Beginner in Programming Logic (Alura), Beginner in Data Science (Alura), Space Law, Space Geopolitics, Screenwriting</p>
+                </div>
+            </div>
+
+        </div> 
+    </main> 
+    
+    <script>
+        const toggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        function aplicarTema(tema) {
+            if (tema === 'light') {
+                body.classList.add('light-mode');
+                toggle.checked = true;
+            } else {
+                body.classList.remove('light-mode');
+                toggle.checked = false;
+            }
+        }
+        const temaSalvo = localStorage.getItem('theme');
+        if (temaSalvo === 'light') {
+            aplicarTema('light');
+        } else {
+            aplicarTema('dark');
+        }
+        toggle.addEventListener('click', () => {
+            if (toggle.checked) {
+                localStorage.setItem('theme', 'light');
+                aplicarTema('light');
+            } else {
+                localStorage.setItem('theme', 'dark');
+                aplicarTema('dark');
+            }
+        });
+    </script>
+
+</body>
+</html>

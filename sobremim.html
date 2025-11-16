@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículo Online - Andréa Ferreira</title>
+    
+    <style>
+        /* --- Configurações Gerais (Padrão é MODO ESCURO) --- */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: rgb(15, 15, 15);
+            color: white;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* --- 1. Faixa Superior (Header) configurações de cor, fonte, padding, cor de fundo
+        posicionamento --- */
+        .header-banner {
+            background-color: rgb(15, 15, 15);
+            color: rgb(182, 143, 5);
+            font-style: italic;
+            padding: 20px;
+            text-align: center;
+            position: relative; 
+        }
+
+        .header-banner h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        /* --- Container dos Controles do Site --- */
+        .site-controls-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        /* --- Estilo do Seletor de Idioma --- */
+        .lang-switch-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .lang-switch a {
+            display: flex; /* Para alinhar imagem e texto */
+            align-items: center; /* Para alinhar imagem e texto */
+            gap: 6px; /* Espaço entre a bandeira e o texto */
+            color: white;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 3px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .lang-switch .lang-ativo {
+            color: #87CEEB;
+            cursor: default;
+        }
+        .lang-switch a:not(.lang-ativo):hover {
+            background-color: #555;
+        }
+        
+        /* Estilo da Bandeira */
+        .lang-flag {
+            width: 20px; /* Tamanho da bandeira */
+            height: auto;
+            border-radius: 2px;
+            border: 1px solid #444; /* Borda sutil */
+        }
+
+        /* --- Estilo do Interruptor de Tema --- */
+        .theme-switch-container {
+            display: flex;
+            align-items: center;
+        }
+        .theme-switch-label {
+            color: white;
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .theme-switch input { display: none; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #555;
+            transition: 0.4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #87CEEB;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* --- Main --- */
+        main {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 0 10px;
+        }
+        .container-principal {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .coluna-texto {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .coluna-foto {
+            flex: 1;
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .coluna-foto img {
+            max-width: 100%;
+            width: 300px;
+            height: auto;
+            border-radius: 8px;
+            border: 3px solid #87CEEB;
+        }
+
+        /* --- Estilo Link LinkedIn --- */
+        .social-links {
+            text-align: center;
+            margin-top: 15px; 
+        }
+        .social-links a {
+            color: #A2D9CE;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9em;
+            transition: color 0.3s;
+        }
+        .social-links a:hover {
+            color: #87CEEB;
+        }
+        
+        .caixa-nome {
+            text-align: center;
+            padding: 15px;
+            color: white;
+            font-size: 2.2em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+        .caixa-subtitulo {
+            background-color: transparent;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            transition: color 0.3s;
+        }
+        .caixa-subtitulo h2 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+        .caixa-descricao {
+            color: white;
+            transition: color 0.3s;
+        }
+        .caixa-descricao p {
+            margin: 0;
+            font-size: 1.2em;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* --- Estilo Caixa de Frases --- */
+        .frases-caixa {
+            background-color: #222;
+            border: 1px solid #87CEEB;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .frases-caixa h3 {
+            margin: 0 0 15px 0;
+            color: #A2D9CE;
+            font-size: 1.3em;
+            font-style: italic;
+            transition: color 0.3s;
+        }
+        .frases-slider {
+            position: relative;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .frase-item {
+            position: absolute;
+            width: 100%;
+            margin: 0;
+            padding: 0 10px;
+            font-size: 1.1em;
+            line-height: 1.5;
+            font-style: italic;
+            opacity: 0;
+            transition: opacity 1.0s ease-in-out;
+            box-sizing: border-box;
+        }
+        .frase-item.active {
+            opacity: 1;
+        }
+
+        /* --- Botões Navegação --- */
+        .menu-navegacao { width: 100%; }
+        .menu-navegacao ul {
+            display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; margin: 0; justify-content: center;
+        }
+        .menu-navegacao li { flex: 1 1 auto; min-width: 120px; }
+        .menu-navegacao a {
+            display: block; padding: 15px 10px; text-align: center; text-decoration: none; font-weight: bold; font-size: 1em;
+            border-radius: 5px; transition: background-color 0.3s, color 0.3s, border-color 0.3s; border: 2px solid;
+            color: #333; background-color: #A2D9CE; border-color: #7DB9AE;
+        }
+        .menu-navegacao a:hover {
+            background-color: #87CEEB; color: white; border-color: #5F9EA0; cursor: pointer;
+        }
+        .menu-navegacao a.ativo {
+            background-color: #D4EDDA; color: #155724; border-color: #C3E6CB;
+        }
+
+        @media (max-width: 768px) {
+            .container-principal { flex-direction: column; }
+            .coluna-foto { order: -1; }
+            .menu-navegacao ul { flex-direction: column; }
+            .menu-navegacao li { min-width: unset; }
+            
+            .site-controls-container {
+                position: static;
+                flex-direction: column;
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+            .theme-switch-container {
+                margin-bottom: 0; 
+            }
+            .theme-switch-label { color: rgb(182, 143, 5); }
+        }
+
+        /* ---
+        ========================================
+        REGRAS DO MODO CLARO (LIGHT MODE)
+        ========================================
+        --- */
+
+        body.light-mode {
+            background-color: white;
+            color: #333;
+        }
+        body.light-mode .caixa-nome {
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        body.light-mode .caixa-subtitulo {
+            color: #333;
+        }
+        body.light-mode .caixa-descricao {
+            color: #333;
+        }
+        
+        body.light-mode .social-links a {
+            color: #0056b3;
+        }
+        body.light-mode .frases-caixa {
+            background-color: #f4f4f4;
+            border-color: #ddd;
+            color: #333;
+        }
+        body.light-mode .frases-caixa h3 {
+            color: #0056b3;
+        }
+        
+        /* Light Mode Controles do Site */
+        body.light-mode .lang-switch a {
+            color: #333; 
+        }
+        body.light-mode .lang-switch .lang-ativo {
+            color: #0056b3; 
+        }
+        body.light-mode .lang-switch a:not(.lang-ativo):hover {
+            background-color: #eee;
+        }
+        body.light-mode .lang-flag {
+            border-color: #ddd; /* Borda da bandeira clara */
+        }
+        body.light-mode .theme-switch-label {
+             color: rgb(182, 143, 5);
+        }
+        
+    </style>
+</head>
+<body>
+
+    <header class="header-banner">
+        <h1>Portfólio Online Pessoal</h1>
+
+        <div class="site-controls-container">
+
+            <div class="lang-switch-container">
+                <span class="lang-switch">
+                    <a href="sobremim.html" class="lang-ativo">
+                        <img src="images/Flag_of_Brazil.png" alt="Bandeira do Brasil" class="lang-flag"> PT
+                    </a>
+                </span>
+                <span class="lang-switch">
+                    <a href="sobremim_en.html">
+                        <img src="images/Flag_of_the_United_Kingdom.png" alt="Bandeira do Reino Unido" class="lang-flag"> EN
+                    </a>
+                </span>
+            </div>
+
+            <div class="theme-switch-container">
+                <span class="theme-switch-label">Light Mode</span>
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+        
+        <section class="caixa-nome">
+            Andréa Ferreira
+        </section>
+
+        <div class="container-principal">
+            
+            <div class="coluna-texto">
+                
+                <section class="caixa-subtitulo">
+                    <h2>Sobre Mim</h2>
+                </section>
+                
+                <section class="caixa-descricao">
+                    <p>Sou profissional especializada em Regulação de Ensino Superior, com mais de 20 anos de atuação nessa área. Atualmente, busco transição de carreira para atuar como Cientista de Dados. Sou carioca e moro atualmente em São José dos Campos/SP.</p>
+                </section>
+
+                <section class="frases-caixa">
+                    <h3>Algumas das minhas frases favoritas</h3>
+                    <div class="frases-slider">
+                        <p class="frase-item active">"The pen is mightier than the sword." - From the play Richelieu (1839). Edward Bulwer-Lytton</p>
+                        <p class="frase-item">"I am the master of my fate; I am the captain of my soul." - From the poem Invictus. William Ernest Henley</p>
+                        <p class="frase-item">"A journey of a thousand miles begins with a single step." - Lao Tzu</p>
+                        <p class="frase-item">"Potentia Regere." - From Black Butler. Yana Toboso</p>
+                        <p class="frase-item">"A leader is a dealer in hope." - Napoleon Bonaparte</p>
+                        <p class="frase-item">"What I worry about is not the scream of the wicked, but the silence of the good." - Martin Luther King Jr</p>
+                        <p class="frase-item">"What is past is prologue" - From the play The Tempest (1610/1611). William Shakespeare</p>
+                        </div>
+                </section>
+
+                <nav class="menu-navegacao">
+                    <ul>
+                        <li><a href="sobremim.html" class="ativo">Home</a></li>
+                        <li><a href="formacao.html">Formação</a></li>
+                        <li><a href="portfolio.html">Portfólio</a></li>
+                        <li><a href="hobbies.html">Hobbies</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </nav>
+
+            </div>
+
+            <aside class="coluna-foto">
+                <img src="images/foto.jpg" alt="Foto de Perfil">
+                
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/andrea-ferreira-regulacao-datascience/" target="_blank">Meu LinkedIn</a>
+                </div>
+            </aside>
+
+        </div> 
+    </main> 
+    
+    <script>
+        // --- LÓGICA DO INTERRUPTOR DE TEMA ---
+        const toggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        function aplicarTema(tema) {
+            if (tema === 'light') {
+                body.classList.add('light-mode');
+                toggle.checked = true;
+            } else {
+                body.classList.remove('light-mode');
+                toggle.checked = false;
+            }
+        }
+        const temaSalvo = localStorage.getItem('theme');
+        if (temaSalvo === 'light') {
+            aplicarTema('light');
+        } else {
+            aplicarTema('dark');
+        }
+        toggle.addEventListener('click', () => {
+            if (toggle.checked) {
+                localStorage.setItem('theme', 'light');
+                aplicarTema('light');
+            } else {
+                localStorage.setItem('theme', 'dark');
+                aplicarTema('dark');
+            }
+        });
+
+        // --- LÓGICA DO SLIDER DE FRASES ---
+        const frases = document.querySelectorAll('.frase-item');
+        let indexFraseAtual = 0;
+
+        function mostrarProximaFrase() {
+            if (frases.length > 0) {
+                frases[indexFraseAtual].classList.remove('active');
+                indexFraseAtual = (indexFraseAtual + 1) % frases.length;
+                frases[indexFraseAtual].classList.add('active');
+            }
+        }
+        
+        if (frases.length > 0) {
+            setInterval(mostrarProximaFrase, 5000);
+        }
+
+    </script>
+
+</body>
+</html>

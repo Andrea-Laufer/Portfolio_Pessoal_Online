@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online CV - Andréa Ferreira</title>
+    
+    <style>
+        /* --- Estilos Gerais (Padrão MODO ESCURO) --- */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: rgb(15, 15, 15);
+            color: white;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        /* --- Header configurações --- */
+        .header-banner {
+            background-color: rgb(15, 15, 15);
+            color: rgb(182, 143, 5);
+            font-style: italic;
+            padding: 20px;
+            text-align: center;
+            position: relative; 
+        }
+        .header-banner h1 { margin: 0; font-size: 2.5em; }
+
+        /* --- Container dos Controles do Site --- */
+        .site-controls-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 20px; /* Espaço entre os seletores */
+            align-items: center;
+        }
+
+        /* --- Estilo do Seletor de Idioma --- */
+        .lang-switch-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .lang-switch a {
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            color: white;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 3px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .lang-switch .lang-ativo {
+            color: #87CEEB; 
+            cursor: default;
+        }
+        .lang-switch a:not(.lang-ativo):hover {
+            background-color: #555;
+        }
+        
+        /* Estilo da Bandeira */
+        .lang-flag {
+            width: 20px;
+            height: auto;
+            border-radius: 2px;
+            border: 1px solid #444; 
+        }
+
+        /* --- Estilo do Interruptor de Tema --- */
+        .theme-switch-container {
+            /* position: absolute */
+            display: flex;
+            align-items: center;
+        }
+        .theme-switch-label {
+            color: white;
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .theme-switch input { display: none; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #555;
+            transition: 0.4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #87CEEB; 
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        main {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 0 10px;
+        }
+
+        /* --- Navegação Menu --- */
+        .menu-navegacao { width: 100%; margin-bottom: 30px; }
+        .menu-navegacao ul {
+            display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; margin: 0; justify-content: center;
+        }
+        .menu-navegacao li { flex: 1 1 auto; min-width: 120px; }
+        .menu-navegacao a {
+            display: block; padding: 15px 10px; text-align: center; text-decoration: none; font-weight: bold;
+            border-radius: 5px; transition: background-color 0.3s, color 0.3s; border: 2px solid;
+            color: #333; background-color: #A2D9CE; border-color: #7DB9AE;
+        }
+        .menu-navegacao a:hover {
+            background-color: #87CEEB; color: white; border-color: #5F9EA0; cursor: pointer;
+        }
+        .menu-navegacao a.ativo {
+            background-color: #D4EDDA; color: #155724; border-color: #C3E6CB;
+        }
+
+        /* --- Título da Página --- */
+        .caixa-nome {
+            text-align: center; padding: 15px; color: white; font-size: 2.2em;
+            font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+
+        /* --- ESTILOS DO FORMULÁRIO --- */
+        .contato-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .form-box {
+            background-color: #222;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #87CEEB;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        /* --- Mensagem de Feedback --- */
+        .mensagem-feedback {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            display: none;
+            font-weight: bold;
+            text-align: center;
+            animation: fadeIn 0.5s;
+        }
+        .mensagem-feedback.erro {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .mensagem-feedback.sucesso {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Campos do Formulário --- */
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block; margin-bottom: 8px; color: #A2D9CE; font-weight: bold;
+            transition: color 0.3s;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 12px; border-radius: 5px; border: 1px solid #555;
+            background-color: #333; color: white; font-size: 1em; box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none; border-color: #87CEEB; background-color: #444;
+        }
+        .form-group textarea { resize: vertical; height: 150px; }
+
+        /* --- Botão Enviar --- */
+        .btn-enviar {
+            width: 100%; padding: 15px; background-color: #A2D9CE; color: #333;
+            border: none; border-radius: 5px; font-size: 1.1em; font-weight: bold;
+            cursor: pointer; transition: background-color 0.3s, transform 0.2s;
+        }
+        .btn-enviar:hover { background-color: #87CEEB; color: white; }
+        .btn-enviar:active { transform: scale(0.98); }
+
+        /* --- Ajuste para Telas Pequenas --- */
+        @media (max-width: 768px) {
+            /* Controles do Site no Mobile */
+            .site-controls-container {
+                position: static;
+                flex-direction: column;
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+            .theme-switch-container {
+                margin-bottom: 0; 
+            }
+            .theme-switch-label { color: rgb(182, 143, 5); }
+        }
+
+        /* ---
+        ========================================
+        REGRAS DO MODO CLARO (LIGHT MODE)
+        ========================================
+        --- */
+
+        body.light-mode {
+            background-color: white;
+            color: #333;
+        }
+        body.light-mode .caixa-nome {
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        body.light-mode .form-box {
+            background-color: #f4f4f4;
+            border-color: #ddd;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        body.light-mode .form-group label {
+            color: #0056b3;
+        }
+        body.light-mode .form-group input, 
+        body.light-mode .form-group textarea {
+            background-color: white;
+            color: #333;
+            border-color: #ccc;
+        }
+        body.light-mode .form-group input:focus, 
+        body.light-mode .form-group textarea:focus {
+            background-color: white;
+            border-color: #87CEEB;
+        }
+        
+        /* Light Mode Controles do Site */
+        body.light-mode .lang-switch a {
+            color: #333; 
+        }
+        body.light-mode .lang-switch .lang-ativo {
+            color: #0056b3; 
+        }
+        body.light-mode .lang-switch a:not(.lang-ativo):hover {
+            background-color: #eee;
+        }
+        body.light-mode .lang-flag {
+            border-color: #ddd; 
+        }
+        body.light-mode .theme-switch-label {
+             color: rgb(182, 143, 5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header-banner">
+        <h1>Personal Online Portfolio</h1>
+
+        <div class="site-controls-container">
+
+            <div class="lang-switch-container">
+                <span class="lang-switch">
+                    <a href="contato.html" class="lang-ativo">
+                        <img src="images/Flag_of_Brazil.png" alt="Bandeira do Brasil" class="lang-flag"> PT
+                    </a>
+                </span>
+                <span class="lang-switch">
+                    <a href="contato_en.html">
+                        <img src="images/Flag_of_the_United_Kingdom.png" alt="Bandeira do Reino Unido" class="lang-flag"> EN
+                    </a>
+                </span>
+            </div>
+
+            <div class="theme-switch-container">
+                <span class="theme-switch-label">Light Mode</span>
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+        </div>
+    </header>
+
+    <main>
+        <nav class="menu-navegacao">
+            <ul>
+                <li><a href="sobremim.html">Home</a></li> 
+                <li><a href="formacao.html">Educational Background</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="hobbies.html">Hobbies</a></li>
+                <li><a href="contato.html" class="ativo">Contact</a></li>
+            </ul>
+        </nav>
+
+        <section class="caixa-nome">
+            Talk to me
+        </section>
+
+        <div class="contato-container">
+            <div class="form-box">
+                
+                <div id="msgFeedback" class="mensagem-feedback"></div>
+
+                <form id="meuFormulario">
+                    <div class="form-group">
+                        <label for="nome">Name:</label>
+                        <input type="text" id="nome" placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-mail:</label>
+                        <input type="text" id="email" placeholder="youremail@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mensagem">Mensagem:</label>
+                        <textarea id="mensagem" placeholder="Write your message here..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-enviar">Send Message</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // --- LÓGICA DO INTERRUPTOR DE TEMA ---
+        const toggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        function aplicarTema(tema) {
+            if (tema === 'light') {
+                body.classList.add('light-mode');
+                toggle.checked = true;
+            } else {
+                body.classList.remove('light-mode');
+                toggle.checked = false;
+            }
+        }
+
+        const temaSalvo = localStorage.getItem('theme');
+        if (temaSalvo === 'light') {
+            aplicarTema('light');
+        } else {
+            aplicarTema('dark');
+        }
+
+        toggle.addEventListener('click', () => {
+            if (toggle.checked) {
+                localStorage.setItem('theme', 'light');
+                aplicarTema('light');
+            } else {
+                localStorage.setItem('theme', 'dark');
+                aplicarTema('dark');
+            }
+        });
+
+        // --- LÓGICA DA VALIDAÇÃO DO FORMULÁRIO ---
+        const formulario = document.getElementById('meuFormulario');
+        const msgBox = document.getElementById('msgFeedback');
+
+        formulario.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById('nome').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const mensagem = document.getElementById('mensagem').value.trim();
+
+            function mostrarMensagem(texto, tipo) {
+                msgBox.textContent = texto;
+                msgBox.style.display = 'block';
+                msgBox.className = 'mensagem-feedback ' + tipo; 
+            }
+
+            if (nome === "" || email === "" || mensagem === "") {
+                mostrarMensagem("⚠️ Please fill in all fields..", "error");
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                mostrarMensagem("⚠️ Enter a valid email address (e.g.: name@email.com).", "error");
+                return;
+            }
+
+            mostrarMensagem("✅ Message sent successfully! Thank you, " + nome + ".", "success");
+            formulario.reset();
+
+            setTimeout(() => {
+                msgBox.style.display = 'none';
+            }, 5000);
+        });
+    </script>
+
+</body>
+</html>
